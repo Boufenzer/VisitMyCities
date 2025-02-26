@@ -1,5 +1,6 @@
 package visitmycities.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import visitmycities.model.enums.EBuildingTypes;
 
@@ -14,7 +15,10 @@ public class Building {
     @ManyToOne
     @JoinColumn(name="architect_id", nullable = false)
     private Architect architect = new Architect();
-
+    @ManyToOne
+    @JoinColumn(name="ville_id")
+    @JsonBackReference
+    private City ville;
     public Building(String nom, EBuildingTypes type, Architect architect) {
         this.nom = nom;
         this.type= type;
@@ -55,5 +59,13 @@ public class Building {
 
     public void setArchitect(Architect architect) {
         this.architect = architect;
+    }
+
+    public City getVille() {
+        return ville;
+    }
+
+    public void setVille(City ville) {
+        this.ville = ville;
     }
 }

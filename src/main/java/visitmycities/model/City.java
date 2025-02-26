@@ -1,5 +1,6 @@
 package visitmycities.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,14 +14,14 @@ public class City {
     private Long id;
     private String nom;
     private String cp;
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Building> listBats = new ArrayList<>();
 
 
-    public City(String nom, String cp, List<Building> listBats) {
+    public City(String nom, String cp) {
         this.nom = nom;
         this.cp = cp;
-        this.listBats = listBats;
     }
 
     public City() {
@@ -51,9 +52,10 @@ public class City {
         this.cp = cp;
     }
 
-    public Building getListBats() {
-        return (Building) listBats;
+    public List<Building> getListBats() {
+        return listBats;
     }
+
 
     public void setListBats(List<Building> listBats) {
         this.listBats = listBats;
