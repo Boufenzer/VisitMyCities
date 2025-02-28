@@ -45,7 +45,7 @@ public class Building {
         this.nom = nom;
     }
 
-    public Enum getType() {
+    public EBuildingTypes getType() {
         return type;
     }
 

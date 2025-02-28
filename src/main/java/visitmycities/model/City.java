@@ -65,4 +65,8 @@ public class City {
         this.listBats.add(building);
     }
 
+    public void removeFromBuildingList(Building building) {
+        this.listBats.remove(building);
+    }
+
 }
