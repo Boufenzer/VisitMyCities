@@ -1,5 +1,6 @@
 package visitmycities.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class User {
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="building_id")
     )
+    @JsonManagedReference
     private Set<Building> favoris = new HashSet<>();
 
     public User(String pseudo, String email, String password) {
