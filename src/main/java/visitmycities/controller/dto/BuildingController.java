@@ -60,11 +60,8 @@ public class BuildingController {
         b.setVille(building.getVille());
         b.setType(building.getType());
         b.setArchitect(building.getArchitect());
+        b.setCoordonnees(building.getCoordonnees());
         buildingRepository.save(b);
-
-
-
-
     }
 
     @PatchMapping("/batiment/{id}/architecte/{architecteId}")

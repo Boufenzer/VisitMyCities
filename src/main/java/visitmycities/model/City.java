@@ -17,6 +17,9 @@ public class City {
     @OneToMany(mappedBy = "ville", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Building> listBats = new ArrayList<>();
+    private String coordonnees = null;
+    // département
+    // pays
 
 
     public City(String nom, String cp) {
@@ -69,4 +72,11 @@ public class City {
         this.listBats.remove(building);
     }
 
+    public String getCoordonnees() {
+        return coordonnees;
+    }
+
+    public void setCoordonnees(String coordonnees) {
+        this.coordonnees = coordonnees;
+    }
 }

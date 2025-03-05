@@ -4,19 +4,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import visitmycities.dao.ArchitectRepository;
-import visitmycities.dao.BuildingRepository;
-import visitmycities.dao.CityRepository;
-import visitmycities.dao.UserRepository;
-import visitmycities.model.Architect;
-import visitmycities.model.Building;
-import visitmycities.model.City;
-import visitmycities.model.User;
+import visitmycities.dao.*;
+import visitmycities.model.*;
 import visitmycities.model.enums.EBuildingTypes;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 
 @SpringBootApplication
@@ -53,15 +45,27 @@ public class VisitMyCitiesApplication {
 			City c1 = new City("Mulhouse","68100");
 			City c2 = new City("Strasbourg","67000");
 			City c3 = new City("Colmar","68000");
+			c1.setCoordonnees("47° 44′ 58″ nord, 7° 20′ 24″ est");
+			c2.setCoordonnees("48° 34′ 24″ nord, 7° 45′ 08″ est");
+			c3.setCoordonnees("48° 04′ 54″ nord, 7° 21′ 20″ est");
 
 
 			/** création bâtiments
-			* @constructeur : nom, EnumType , Architecte)
+			* @constructeur : nom, EnumType , Architecte, ville, coordonnées)
 			*/
-			Building b1 = new Building("Tour de l'Europe", EBuildingTypes.TOUR,a1);
-			Building b2 = new Building("Tribunal d'instance de Mulhouse", EBuildingTypes.MUNICIPAL,a2);
-			Building b3 = new Building("Cathédrale Notre-Dame de Strasbourg", EBuildingTypes.EGLISE,a3);
-			Building b4 = new Building("Statue de la Liberté", EBuildingTypes.MONUMENT,a4);
+			Building b1 = new Building("Tour de l'Europe", EBuildingTypes.TOUR,a1,c1,"47° 45′ 00″ N, 7° 20′ 26″ E");
+			Building b2 = new Building("Tribunal d'instance de Mulhouse", EBuildingTypes.MUNICIPAL,a2,c1,"47° 45′ 12″ N, 7° 20′ 40″ E");
+			Building b3 = new Building("Cathédrale Notre-Dame de Strasbourg", EBuildingTypes.EGLISE,a3,c2,"48° 34′ 54″ N, 7° 45′ 02″ E");
+			Building b4 = new Building("Statue de la Liberté", EBuildingTypes.MONUMENT,a4,c3,"48° 5′ 59″ N, 7° 21′ 43″ E");
+
+			// détails bâtiments
+			b1.getDetails().add("Construction de 1969 à 1972");
+			b1.getDetails().add("Hauteur 112m");
+
+			//images bâtiments
+			b4.getImages().add("https://www.colmar.fr/sites/colmar.fr/files/visiter/statue-liberte-colmar.jpg");
+
+
 
 			/** création des utilisateurs
 			* @constructeur : pseudo, email, password (, expert : true/false))
@@ -77,11 +81,8 @@ public class VisitMyCitiesApplication {
 			c1.addToBuildingList(b2);
 			c2.addToBuildingList(b3);
 			c3.addToBuildingList(b4);
-			// ajoute ville à bâtiment
-			b1.setVille(c1);
-			b2.setVille(c1);
-			b3.setVille(c2);
-			b4.setVille(c3);
+
+
 
 			// obligé de save l'user avant d'ajouter aux favoris (et le u1 est save ici juste pour garder celui là en id = 1)
 			userRepository.save(u1);
@@ -104,6 +105,7 @@ public class VisitMyCitiesApplication {
 			buildingRepository.save(b2);
 			buildingRepository.save(b3);
 			buildingRepository.save(b4);
+
 
 			userRepository.save(u2);
 
