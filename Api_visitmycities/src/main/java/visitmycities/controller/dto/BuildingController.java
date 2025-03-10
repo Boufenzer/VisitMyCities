@@ -29,7 +29,10 @@ public class BuildingController {
     }
 
     @GetMapping("/batiment")
-    public List<Building> getAllBuilding(@RequestParam Long villeId) {
+    public List<Building> getAllBuilding() {return this.buildingRepository.findAll();}
+
+    @GetMapping("/batiment/ville")
+    public List<Building> getAllBuildingCity(@RequestParam Long villeId) {
        City ville = cityRepository.findById(villeId).orElseThrow(() -> new RuntimeException("Ville not found"));
             return buildingRepository.findByVille(ville);
         }
@@ -47,8 +50,17 @@ public class BuildingController {
         return ResponseEntity.notFound().build();
     }
 
+//    @PostMapping("/batiment")
+//    public Building addBuilding(@RequestBody Building   building) {return buildingRepository.save(building);}
+
+
     @PostMapping("/batiment")
-    public Building addBuilding(@RequestBody Building   building) {return buildingRepository.save(building);}
+    public Building createBatiment(@RequestBody Building building) {
+        City villeComplete = cityRepository.findById(building.getVille().getId())
+                .orElseThrow(() -> new RuntimeException("Ville non trouvée"));
+        building.setVille(villeComplete);
+        return buildingRepository.save(building);
+    }
 
     @DeleteMapping("/batiment/{id}")
     public void deleteBuildingById(@PathVariable Long id) {buildingRepository.deleteById(id);}

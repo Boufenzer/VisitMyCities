@@ -1,10 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./authSlice"; // Vérifie que le fichier existe bien
+import thunk from 'redux-thunk';
+import buildingReducer from './buildingReducer';
+import authReducer from "./authSlice"; // Vérifie que ce fichier existe bien
 
 const store = configureStore({
   reducer: {
-    auth: authReducer,
+    auth: authReducer, // Authentification
+    building: buildingReducer, // Gestion des bâtiments et listes déroulantes
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
 export default store;

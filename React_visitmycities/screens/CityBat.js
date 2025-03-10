@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { API_BASE_URL } from "../config";
+import { useSelector } from "react-redux"; 
 import Footer from "../Components/Footer";
 
 export default function CityBat() {
@@ -19,7 +20,10 @@ export default function CityBat() {
   const { batiment } = route.params;
   const [isFavori, setIsFavori] = useState(false);
   const [data,setData] = useState([]);
+  const user = useSelector((state) => state.auth.user);
+  const [errorMessage, setErrorMessage] = useState('');
 
+  
   useEffect(() => {
     axios.get(`${API_BASE_URL}/visitmycities/architecte/${batiment.id}`)
 
@@ -30,11 +34,39 @@ export default function CityBat() {
   }, []);
 
   
+  const addFav = async () => {
+    console.log("rfgrggdfgrggghrefgrfggvrffgvvdrfgvrfvdfvbdfvdfdv vb fxdfbvfcvbcvv fxcvbfdcb fcb fvbdxfv fxcbdf   fcdb df");
+   
+
+      try {
+      
+console.log("URL de l'API :", `${API_BASE_URL}/visitmycities/${batiment.id}/${user.id}`);
+
+         const response = await axios.post(`${API_BASE_URL}/visitmycities/usager/${user.id}/${batiment.id}`,{headers: {'Content-Type': 'application/json','Accept': 'application/json'}});
+        
+         if (response.status === 200) {
+        
+            setErrorMessage('Utilisateur créer')}
+        // }
+        // setError('')
+        // setPseudo('');
+        // setEmail('');
+        // setPassword('');
+        // setConfirmPassword('');
+
+      }catch (err) {
+        console.error(err);
+        setError('Erreur lors de la création de l\'utilisateur');
+        setErrorMessage('');
+      }
+  };
   
 
   const toggleFavori = () => {
     setIsFavori(!isFavori);
   };
+
+
   const openGoogleMaps = () => {
     const destination = encodeURIComponent(batiment.gps);
     const url = `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
@@ -47,12 +79,12 @@ export default function CityBat() {
     <View style={styles.container}>
       {/* IMAGE PLEIN ÉCRAN EN HAUT */}
       <View style={styles.bannerContainer}>
-        <TouchableOpacity style={styles.fav}>
+        <TouchableOpacity style={styles.fav}  >
           <Ionicons
             name={isFavori? "heart" : "heart-outline"}
             size={50}
             color="red"
-            onPress={toggleFavori}
+            onPress={addFav}
           />
         </TouchableOpacity>
         <Image source={{uri:batiment.image}} style={styles.banner} />

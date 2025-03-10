@@ -2,6 +2,7 @@ package visitmycities.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import visitmycities.model.enums.EBuildingTypes;
 
@@ -15,7 +16,7 @@ public class Building {
     @Column(name = "building_id", nullable = false)
     private Long id;
     private String nom;
-    private EBuildingTypes type;
+    private String type;
     private int annee;
     private double taille;
     private String gps;
@@ -30,11 +31,10 @@ public class Building {
     private List<String> details = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name="ville_id")
-    @JsonIgnore
-    private City ville;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)    private City ville;
     boolean valide = false;
 
-    public Building(String nom, EBuildingTypes type, Architect architect, int annee, double taille, String gps, String description, String image,City ville) {
+    public Building(String nom, String type, Architect architect, int annee, double taille, String gps, String description, String image,City ville) {
         this.nom = nom;
         this.type= type;
         this.architect = architect;
@@ -44,7 +44,6 @@ public class Building {
         this.description = description;
         this.image = image;
         this.ville = ville;
-
 
     }
 
@@ -70,11 +69,11 @@ public class Building {
         this.nom = nom;
     }
 
-    public EBuildingTypes getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(EBuildingTypes type) {
+    public void setType(String type) {
         this.type = type;
     }
 

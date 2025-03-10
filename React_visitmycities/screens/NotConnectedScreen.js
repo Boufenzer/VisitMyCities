@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import Footer from '../Components/Footer';
 import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice";
 import { useNavigation } from "@react-navigation/native";
 
 

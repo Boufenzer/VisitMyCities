@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native"; // ✅ Correct
-import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import Footer from "../Components/Footer";
@@ -27,7 +26,7 @@ export default function CityScreen() {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/visitmycities/batiment?villeId=${city.id}`)
+    axios.get(`${API_BASE_URL}/visitmycities/batiment/ville?villeId=${city.id}`)
 
    .then((response) => {                  
  
@@ -73,26 +72,14 @@ export default function CityScreen() {
           <BatCard batiment={item} navigation={navigation} />
         )}
       />
+      <View style={styles.addView}>
               {user &&(   <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => navigation.navigate("CreateBuilding")}
-        ><Text style={styles.welcomeText}>Souhaitez vous ajouter un batiment ?</Text></TouchableOpacity>)}
+          style={styles.addButton}
+          onPress={() => navigation.navigate("CreateBuilding" , {city})}
           
-      {/* BARRE DE NAVIGATION EN BAS */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navButton}>
-          <Ionicons name="home" size={24} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navButton}>
-          <Ionicons name="heart-outline" size={24} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.navButton}
-          onPress={() => navigation.navigate("LoginScreen")}
-        >
-          <Ionicons name="person-outline" size={24} color="#000" />
-        </TouchableOpacity>
-      </View>
+        ><Text style={styles.addButtonText}>Souhaitez vous ajouter un batiment ?</Text></TouchableOpacity>)}
+          </View>
+   
       <Footer />
     </View>
   );
@@ -134,7 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginTop: 30,
-    marginBottom: 30,
+    marginBottom: 10,
   },
   searchContainer: {
     flexDirection: "row",
@@ -193,4 +180,28 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
   },
+  addButton: {
+    backgroundColor: '#FDB927',
+    paddingVertical: 5,
+    paddingHorizontal: 55,
+    borderRadius: 20,
+    marginVertical: 10,
+    width:400,
+    position: "absolute",
+    bottom: 76,
+    
+  
+},
+addButtonText: {
+  color: 'black',
+  fontWeight: 'bold',
+  fontSize: 16,
+  textAlign: 'center',
+},
+addView: {
+justifyContent: 'center',
+  alignItems: 'center',
+
+},
+
 });

@@ -59,19 +59,19 @@ public class VisitMyCitiesApplication {
 				/** création bâtiments
 				 * @constructeur : nom, EnumType , Architecte)
 				 */
-				Building b1 = new Building("Tour de l'Europe", EBuildingTypes.TOUR, a1, 1972, 100.0, "47.7498, 7.3371",
+				Building b1 = new Building("Tour de l'Europe","Tour", a1, 1972, 100.0, "47.7498, 7.3371",
 						"La Tour de l'Europe, un gratte-ciel emblématique de Mulhouse, se distingue par son architecture moderne et sa hauteur imposante. Elle reste l'un des bâtiments les plus reconnaissables de la ville.",
 						"http://10.0.2.2:8080/images/tour_de_leurope.webp",c1);
 
-				Building b2 = new Building("Tribunal d'instance de Mulhouse", EBuildingTypes.MUNICIPAL, a2, 1926, 30.0, "47.7431, 7.3412",
+				Building b2 = new Building("Tribunal d'instance de Mulhouse", "Municipal", a2, 1926, 30.0, "47.7431, 7.3412",
 						"Le Tribunal d'instance de Mulhouse, un bâtiment judiciaire datant de 1926, incarne l'autorité et l'histoire de la ville. Son architecture est un bel exemple de l'urbanisme du début du XXe siècle.",
 						"http://10.0.2.2:8080/images/tribunal_mulhouse.jpg",c1);
 
-				Building b3 = new Building("Notre-Dame de Strasbourg", EBuildingTypes.EGLISE, a3, 1439, 142.0, "48.5810, 7.7509",
+				Building b3 = new Building("Notre-Dame de Strasbourg", "Eglise", a3, 1439, 142.0, "48.5810, 7.7509",
 						"La cathédrale Notre-Dame de Strasbourg, un chef-d'œuvre de l'architecture gothique, a été construite au XVe siècle. Sa façade spectaculaire et sa flèche majestueuse en font un monument incontournable de la ville.",
 						"http://10.0.2.2:8080/images/cathe_strasbourg.jpg",c2);
 
-				Building b4 = new Building("Statue de la Liberté", EBuildingTypes.MONUMENT, a4, 1886, 93.0, "48.0795, 7.3582",
+				Building b4 = new Building("Statue de la Liberté", "Statue", a4, 1886, 93.0, "48.0795, 7.3582",
 						"La Statue de la Liberté de Colmar, érigée en 1886, est une réplique de l'emblématique monument new-yorkais. Elle rend hommage à Bartholdi, le sculpteur originaire de Colmar, et symbolise la liberté et la fraternité.",
 						"http://10.0.2.2:8080/images/statue_liberte.jpg",c3);
 
