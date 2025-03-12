@@ -69,6 +69,8 @@ public class BuildingController {
     @DeleteMapping("/batiment/{id}")
     public void deleteBuildingById(@PathVariable Long id) {buildingRepository.deleteById(id);}
 
+
+
     @PatchMapping("/batiment/{id}")
     public void updateBuildingById(@PathVariable Long id, @RequestBody Building building) {
         Building b = buildingRepository.getReferenceById(id);
@@ -77,9 +79,14 @@ public class BuildingController {
 
         }
         b.setNom(building.getNom());
-
         b.setType(building.getType());
-        b.setArchitect(building.getArchitect());
+        b.setAnnee(building.getAnnee());
+        b.setTaille(building.getTaille());
+        b.setGps(building.getGps());
+        b.setImage(building.getImage());
+        b.setDescription(building.getDescription());
+
+
         buildingRepository.save(b);
 
 

@@ -8,11 +8,13 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  TextInput,
 } from "react-native"; // ✅ Correct
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import Footer from "../Components/Footer";
 import { useSelector} from "react-redux";
+import { Ionicons } from '@expo/vector-icons';
 
 
 
@@ -24,16 +26,42 @@ export default function CityScreen() {
   const navigation = useNavigation();
   const [batiments,setBatiments] = useState([]);
   const user = useSelector((state) => state.auth.user);
+  const [searchText, setSearchText] = useState("");
+  const [allBat, setAllBat] = useState(false);
+
 
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/visitmycities/batiment/ville?villeId=${city.id}`)
+    if (allBat){
+      axios.get(`${API_BASE_URL}/visitmycities/batiment`)
+
+      .then((response) => {                  
+    
+       setBatiments(response.data);})
+      .catch(error => {console.error(error);});
+    } else {   axios.get(`${API_BASE_URL}/visitmycities/batiment/ville?villeId=${city.id}`)
 
    .then((response) => {                  
  
     setBatiments(response.data);})
-   .catch(error => {console.error(error);});
-  }, []);
-  // ✅ Récupérer la ville sélectionnée
+   .catch(error => {console.error(error);});}
+ 
+  }, [allBat]);
+ 
+
+  const filteredBatiments = batiments.filter(b => {
+    const estValide = (b.valide == 1);
+    const correspondRecherche = b.nom
+      .toLowerCase()
+      .includes(searchText.toLowerCase()) ||
+      b.type.toLowerCase().includes(searchText.toLowerCase()) ||
+      b.architect.nom.toLowerCase().includes(searchText.toLowerCase());
+    return estValide && correspondRecherche;
+  });
+
+    // 🔹 Bouton pour basculer entre l'affichage de la ville ou de tous les bâtiments
+    const handleToggleShowAll = () => {
+      setAllBat(!allBat);
+    };
 
   const BatCard = ({batiment}) => (
     <TouchableOpacity
@@ -60,27 +88,48 @@ export default function CityScreen() {
           </Text>
         </View>
       </View>
-      <Text style={styles.titrepage}>Bâtiments Cultes</Text>
- 
-      
-      <FlatList
-        data={batiments.filter(batiment => batiment.valide==1)}
-        keyExtractor={(item) => item.id.toString()}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <BatCard batiment={item} navigation={navigation} />
-        )}
-      />
 
-     
-      {user && user.expert && (<View style={styles.addView}>
-              {user &&(   <TouchableOpacity
+ 
+      <View style={styles.searchContainer}>
+  <TextInput
+    style={styles.searchInput}
+    placeholder="Rechercher un bâtiment ( Nom, Architecte, Type)"
+    placeholderTextColor="#666"
+    value={searchText}
+    onChangeText={setSearchText} // <-- Met à jour le state quand on tape
+  />
+</View>
+      
+<FlatList
+  data={filteredBatiments}
+  keyExtractor={(item) => item.id.toString()}
+  horizontal
+  showsHorizontalScrollIndicator={false}
+  renderItem={({ item }) => (
+    <BatCard batiment={item} navigation={navigation} />
+  )}
+/>
+
+
+     <View style={styles.addView}>
+              <TouchableOpacity
           style={styles.addButton}
-          onPress={() => navigation.navigate("CreateBuilding" , {city})}
+          onPress={handleToggleShowAll}
           
-        ><Text style={styles.addButtonText}>Souhaitez vous ajouter un batiment ?</Text></TouchableOpacity>)}
-          </View>)}
+        ><Text style={styles.addButtonText}> {allBat ? "Afficher uniquement la ville" : "Afficher tous les bâtiments"}</Text></TouchableOpacity>
+          </View>
+
+          {user && user.expert && (
+  <View style={styles.addViewExpert}>
+    <TouchableOpacity
+      style={styles.addButtonExpert}
+      onPress={() => navigation.navigate("CreateBuilding", { city })}
+    >
+      <Ionicons name="add-circle-outline" size={30} color="#000" />
+    </TouchableOpacity>
+  </View>
+)}
+
       
    
       <Footer />
@@ -123,20 +172,20 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop: 30,
-    marginBottom: 10,
+    marginTop: 0,
+    marginBottom: 0,
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
-    margin: 20,
+    margin: 10,
     padding: 10,
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: "bold",
     color: "#000",
   },
@@ -145,7 +194,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 300,
-    height: 480,
+    height: 505,
     borderRadius: 10,
     overflow: "hidden",
     marginLeft: 20, 
@@ -206,5 +255,12 @@ justifyContent: 'center',
   alignItems: 'center',
 
 },
+addButtonExpert: {
+  position: "absolute",
+  bottom: 55,
+  right: 10,
+  
+
+}
 
 });

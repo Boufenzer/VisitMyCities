@@ -46,7 +46,8 @@ const Footer = () => {
       <Ionicons 
         name={route.name === 'NotConnectedScreen' || route.name === 'LoginScreen' || route.name === 'RegisterScreen' ? "person" : "person-outline"} // 🔹 Change selon la page
         size={24} 
-        color="#000" 
+        color = {user ? "green" : "#000"}
+       
       />
     </TouchableOpacity>
   </View>

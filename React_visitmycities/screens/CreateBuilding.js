@@ -107,12 +107,14 @@ const CreateBuilding = () => {
           placeholder="Année de construction"
           value={annee}
           onChangeText={setAnnee}
+        
         />
         <TextInput
           style={styles.input}
           placeholder="Taille du bâtiment"
           value={taille}
           onChangeText={setTaille}
+ 
         />
         <TextInput
           style={styles.input}
@@ -121,15 +123,7 @@ const CreateBuilding = () => {
           onChangeText={setType}
         />
 
-        {/* Saisie manuelle de l'architecte
-        <TextInput
-          style={styles.input}
-          placeholder="Nom et prénom de l'architecte"
-          value={architecte}
-          onChangeText={setArchitecte}
-        /> */}
-
-        {/* Affichage de la ville récupérée via la navigation */}
+ 
         <View style={styles.readOnlyField}>
           <Text style={styles.readOnlyText}>
             Ville : {city ? city.nom : "Non définie"}

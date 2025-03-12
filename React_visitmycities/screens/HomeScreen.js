@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { TouchableOpacity,AppRegistry  } from "react-native";
+import { TouchableOpacity, AppRegistry } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_BASE_URL } from "../config";
@@ -20,10 +20,9 @@ import { logout } from "../redux/authSlice";
 
 
 export default function HomeScreen() {
-  const navigation = useNavigation(); // ✅ Ajout de la navigation
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user); // 🔹 Récupérer user depuis Redux
-  const [cities,setVilles] = useState([]);
+  const navigation = useNavigation();
+  const user = useSelector((state) => state.auth.user);
+  const [cities, setVilles] = useState([]);
   const [searchText, setSearchText] = useState('');
 
 
@@ -34,60 +33,50 @@ export default function HomeScreen() {
 
 
 
-  
+
   useEffect(() => {
     axios.get(`${API_BASE_URL}/visitmycities/ville`)
-    
-    .then((response) => {                  
-      
-      setVilles(response.data);})
-      .catch(error => {console.error(error);});
-    }, []);
+
+      .then((response) => {
+
+        setVilles(response.data);
+      })
+      .catch(error => { console.error(error); });
+  }, []);
 
 
-    const handleLogout = () => {
-      dispatch(logout());
-      navigation.replace("LoginScreen");
-    };
-    
-    const CityCard = ({ city }) => (
-      <TouchableOpacity onPress={() => navigation.navigate("Cityscreen", {city})}>
-        <View style={styles.card}>
-          <Image source={{uri:city.image}} style={styles.image} />
-          <View style={styles.badge}>
-            <Text style={styles.cityName}>{city.nom}</Text>
-            <Text style={styles.region}>{city.cp}</Text>
-          </View>
+
+
+  const CityCard = ({ city }) => (
+    <TouchableOpacity onPress={() => navigation.navigate("Cityscreen", { city })}>
+      <View style={styles.card}>
+        <Image source={{ uri: city.image }} style={styles.image} />
+        <View style={styles.badge}>
+          <Text style={styles.cityName}>{city.nom}</Text>
+          <Text style={styles.region}>{city.cp}</Text>
         </View>
-      </TouchableOpacity>
-    );
-    
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
       {/* IMAGE PLEIN ÉCRAN EN HAUT */}
       <View style={styles.bannerContainer}>
         <Image source={require("../assets/header_home.jpg")} style={styles.banner} />
         <View style={styles.textOverlay}>
-          
+
           <Text style={styles.logo}>
             VISIT<Text style={styles.highlight}>MY</Text>CITIES
           </Text>
         </View>
       </View>
 
-      {user && (
-        <View>
-          <Text style={styles.welcomeText}>Bienvenue, {user.pseudo} !</Text>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Se déconnecter</Text>
-          </TouchableOpacity>
-        </View>
-      )}
 
 
       {/* BARRE DE RECHERCHE */}
       <View style={styles.searchContainer}>
-      
+
         <TextInput
           style={styles.searchInput}
           placeholder="Découvrir"
@@ -111,7 +100,9 @@ export default function HomeScreen() {
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => <CityCard city={item} navigation={navigation} />}
       />
-       <Footer />
+
+   
+      <Footer />
     </View>
   );
 }
@@ -152,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
-    margin: 20,
+    margin: 10,
     padding: 10,
   },
   searchInput: {
@@ -166,7 +157,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 300,
-    height: 470,
+    height: 540,
     borderRadius: 10,
     overflow: "hidden",
     marginLeft: 20, // Appliquer le margin seulement à gauche
@@ -211,4 +202,10 @@ const styles = StyleSheet.create({
   navButton: {
     padding: 10,
   },
+  welcomeText: {
+    textAlign: "center",
+    margin: 5
+  },
+
+
 });

@@ -18,17 +18,17 @@ const EditBuilding = () => {
   const route = useRoute();
   const city = route.params?.city;
   const { batiment } = route.params;
-  console.log("City reçue :", batiment); 
+  console.log("City reçue :", batiment);
 
-  const [annee, setAnnee] =  useState(batiment.annee || 0);
-  const [taille, setTaille] = useState(batiment.taille || 0);
+  const [annee, setAnnee] = useState(batiment.annee ? String(batiment.annee) : "");
+  const [taille, setTaille] = useState(batiment.taille ? String(batiment.taille) : "");
   const [type, setType] = useState(batiment.type || "");
   const [valide, setValide] = useState(batiment.valide || false);
   const [description, setDescription] = useState(batiment.description || "");
   const [gps, setGps] = useState(batiment.gps || "");
   const [image, setImage] = useState(batiment.image || "");
   const [nom, setNom] = useState(batiment.nom || "");
-  
+
 
 
   const [error, setError] = useState("");
@@ -39,8 +39,8 @@ const EditBuilding = () => {
 
 
     const buildingData = {
-      annee,
-      taille,
+      annee: parseInt(annee, 10) || 0,
+      taille: parseFloat(taille) || 0,
       type,
       valide,
       description,
@@ -64,7 +64,7 @@ const EditBuilding = () => {
       );
 
       if (response.status === 200) {
-        navigation.navigate("CityBat" , { batiment });
+        navigation.navigate("HomeScreen");
         setErrorMessage("Bâtiment créé");
       }
       setError("");
@@ -77,7 +77,7 @@ const EditBuilding = () => {
       setGps("");
       setImage("");
       setNom("");
-     
+
     } catch (err) {
       console.error(err);
       setError("Erreur lors de la création du bâtiment");
@@ -98,12 +98,14 @@ const EditBuilding = () => {
           placeholder="Année de construction"
           value={annee.toString()}
           onChangeText={setAnnee}
+          keyboardType="number-pad" 
         />
         <TextInput
           style={styles.input}
           placeholder="Taille du bâtiment"
           value={taille.toString()}
           onChangeText={setTaille}
+          keyboardType="number-pad" 
         />
         <TextInput
           style={styles.input}
